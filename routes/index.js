@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('./admin/products/models/Product');
+const Product = require('./admin/products/models/Product')
 
 function paginate(req, res, next) {
   const perPage = 6;
@@ -25,18 +25,19 @@ function paginate(req, res, next) {
 // Render Home Page
 router.get('/', (req, res, next) => {
   if (req.isAuthenticated()) {
-    paginate(req, res, next);
+    return paginate(req, res, next);
   } else {
-    return res.path('main/home');
+    return res.render('main/home');
   }
 });
 
 router.get('/page/:pageNumber', (req, res, next) => {
-  paginate(req, res, next);
+  return paginate(req, res, next);
 });
 
 router.get('/logout', (req, res) => {
   req.logout();
+  req.session.destroy()
   return res.redirect('/');
 });
 
